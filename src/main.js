@@ -24,6 +24,9 @@ function renderTodos() {
 
     const todoText = document.createElement("div");
     todoText.classList.add("todo-text");
+    if (todo.completed) {
+        todoText.classList.add("line-through");
+    }
     todoText.textContent = todo.text;
     todoItem.appendChild(todoText);
 
@@ -34,5 +37,20 @@ function renderTodos() {
   }
 }
 
+// Function to handle adding a new todo
+function handleNewTodoKeyDown(event) {
+  const newTodoInput = event.target;
+  const todoText = newTodoInput.value.trim();
+  if (event.key === "Enter" && todoText !== "") {
+    todos.push({ id: nextTodoId++, text: todoText, completed: false });
+    newTodoInput.value = ""; // clear the input
+    renderTodos();
+  }
+}
+
+
 // Event listener to initialize the app after the DOM content is fully loaded
 document.addEventListener("DOMContentLoaded", renderTodos);
+
+const newTodoInput = document.getElementById("new-todo");
+newTodoInput.addEventListener("keydown", handleNewTodoKeyDown);
